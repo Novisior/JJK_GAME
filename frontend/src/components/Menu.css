@@ -1,0 +1,71 @@
+.menu-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+}
+
+.menu-content {
+  text-align: center;
+  width: 100%;
+}
+
+.menu-content h2 {
+  font-size: 2rem;
+  margin-bottom: 3rem;
+  color: #E2E8F0;
+}
+
+.menu-buttons {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.menu-button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  border: 2px solid transparent;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 250px;
+  color: inherit;
+  font: inherit;
+}
+
+.menu-button:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #8B5CF6;
+  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+}
+
+.menu-button .button-icon {
+  font-size: 3rem;
+}
+
+.menu-button .button-text h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #E2E8F0;
+}
+
+.menu-button .button-text p {
+  color: #A0AEC0;
+  font-size: 1rem;
+}
+
+.menu-button.vs-ai:hover {
+  border-color: #10B981;
+}
+
+.menu-button.vs-player:hover {
+  border-color: #F59E0B;
+}

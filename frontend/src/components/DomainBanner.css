@@ -1,0 +1,98 @@
+.domain-banner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: domainAppear 0.5s ease-out;
+}
+
+@keyframes domainAppear {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(10px);
+  }
+}
+
+.domain-banner {
+  text-align: center;
+  animation: domainExpand 1s ease-out;
+}
+
+@keyframes domainExpand {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.domain-title {
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.double-domain .domain-title {
+  background: linear-gradient(45deg, #8B5CF6, #F59E0B, #EF4444, #8B5CF6);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: rainbow 2s ease-in-out infinite;
+}
+
+.single-domain .domain-title {
+  color: #F59E0B;
+  animation: domainGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes rainbow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes domainGlow {
+  from { text-shadow: 0 0 20px #F59E0B; }
+  to { text-shadow: 0 0 40px #F59E0B, 0 0 60px #F59E0B; }
+}
+
+.domain-subtitle {
+  font-size: 1.5rem;
+  color: #E2E8F0;
+  margin-bottom: 0.5rem;
+}
+
+.domain-effect {
+  font-size: 1.2rem;
+  color: #F59E0B;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.domain-effects {
+  font-size: 3rem;
+  animation: bounce 1s ease-in-out infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0px); }
+  to { transform: translateY(-10px); }
+}
