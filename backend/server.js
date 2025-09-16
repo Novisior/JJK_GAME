@@ -3,7 +3,7 @@ const http = require('http');
 const socketIo = require('socket.io');
 const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
-const roomManager = require('./utils/roomManager');
+const roomManager = require('./routes/roomManager');
 const aiLogic = require('./utils/aiLogic');
 
 const app = express();

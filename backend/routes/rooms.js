@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const roomManager = require('../utils/roomManager');
+const roomManager = require('./roomManager');
 
 router.post('/create', (req, res) => {
   const { playerName } = req.body;

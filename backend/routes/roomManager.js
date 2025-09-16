@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
-const { createInitialGameState, resolveClash } = require('./gameState');
+const { createInitialGameState, resolveClash } = require('../utils/gameState')
 
 class RoomManager {
   constructor() {
