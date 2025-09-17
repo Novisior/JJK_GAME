@@ -1,0 +1,94 @@
+/* BattleLog.css */
+
+.battle-log {
+  background: linear-gradient(135deg, #1b1b2f, #162447);
+  border: 2px solid #0f3460;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(15, 52, 96, 0.6);
+  color: #f1f1f1;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
+  max-width: 500px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.battle-log-header {
+  background: rgba(15, 52, 96, 0.9);
+  padding: 8px 12px;
+  border-bottom: 1px solid #0f3460;
+  text-align: center;
+}
+
+.battle-log-header h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: #e94560;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.battle-log-content {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #0f3460 #1b1b2f;
+}
+
+/* Custom scrollbar for Webkit browsers */
+.battle-log-content::-webkit-scrollbar {
+  width: 6px;
+}
+.battle-log-content::-webkit-scrollbar-track {
+  background: #1b1b2f;
+}
+.battle-log-content::-webkit-scrollbar-thumb {
+  background-color: #0f3460;
+  border-radius: 6px;
+}
+
+.log-empty {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+.log-entry {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid #e94560;
+  border-radius: 4px;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.log-time {
+  font-weight: bold;
+  color: #e94560;
+  margin-right: 8px;
+  font-size: 0.85rem;
+}
+
+.log-message {
+  flex: 1;
+  font-size: 0.9rem;
+  color: #f1f1f1;
+}
+
+/* Simple fade-in for new logs */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

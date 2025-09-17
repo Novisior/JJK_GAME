@@ -1,3 +1,4 @@
+// backend/server.js
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
@@ -19,6 +20,9 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+app.get("/", (req, res) => {
+  res.send("Server is running 🚀");
+});
 app.use('/api/rooms', require('./routes/rooms'));
 app.use('/api/game', require('./routes/game'));
 
@@ -27,13 +31,35 @@ io.on('connection', (socket) => {
   console.log('Player connected:', socket.id);
 
   socket.on('joinRoom', (roomCode, playerName) => {
-    const room = roomManager.joinRoom(roomCode, socket.id, playerName);
-    if (room) {
+    console.log(`Player ${playerName} attempting to join room ${roomCode}`);
+    
+    const result = roomManager.joinRoom(roomCode, socket.id, playerName);
+    if (result) {
       socket.join(roomCode);
-      socket.emit('roomJoined', room);
-      socket.to(roomCode).emit('playerJoined', room);
+      
+      // Send room joined confirmation to the joining player
+      socket.emit('roomJoined', {
+        playerId: result.playerId,
+        gameState: result.gameState
+      });
+      
+      // If room is now full (2 players), notify both players
+      if (result.status === 'ready') {
+        console.log(`Room ${roomCode} is now ready with 2 players`);
+        
+        // Notify all players in the room that second player joined and game can start
+        io.to(roomCode).emit('playerJoined', {
+          gameState: result.gameState,
+          players: result.players
+        });
+        
+        // Start the game for all players in the room
+        setTimeout(() => {
+          io.to(roomCode).emit('gameStarted', result.gameState);
+        }, 500);
+      }
     } else {
-      socket.emit('error', 'Room not found');
+      socket.emit('error', 'Room not found or full');
     }
   });
 

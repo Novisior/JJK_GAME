@@ -1,5 +1,6 @@
+// backend/utils/roomManager.js
 const { v4: uuidv4 } = require('uuid');
-const { createInitialGameState, resolveClash } = require('../utils/gameState')
+const { createInitialGameState, resolveClash } = require('../utils/gameState');
 
 class RoomManager {
   constructor() {
@@ -8,46 +9,65 @@ class RoomManager {
 
   createRoom(playerName) {
     const roomCode = Math.random().toString(36).substr(2, 6).toUpperCase();
+    const playerId = uuidv4();
+    const gameState = createInitialGameState();
+    gameState.players.player1.name = playerName;
+    
     const room = {
       code: roomCode,
       players: [{
-        id: uuidv4(),
+        id: playerId,
         name: playerName,
         socketId: null,
         connected: false
       }],
-      gameState: createInitialGameState(),
+      gameState: gameState,
       status: 'waiting'
     };
     
     this.rooms.set(roomCode, room);
-    return room;
+    return { ...room, playerId };
   }
 
   joinRoom(roomCode, socketId, playerName) {
     const room = this.rooms.get(roomCode);
     if (!room) return null;
 
+    let playerId;
+
     if (room.players.length < 2) {
+      // Add second player
+      playerId = uuidv4();
       room.players.push({
-        id: uuidv4(),
+        id: playerId,
         name: playerName,
         socketId,
         connected: true
       });
       
+      // Update game state with both players
+      room.gameState.players.player2.name = playerName;
+      
       if (room.players.length === 2) {
         room.status = 'ready';
+        // Reset game state to fresh start
+        room.gameState = createInitialGameState();
+        room.gameState.players.player1.name = room.players[0].name;
+        room.gameState.players.player2.name = room.players[1].name;
       }
     } else {
-      const existingPlayer = room.players.find(p => !p.connected);
+      // Reconnecting existing player
+      const existingPlayer = room.players.find(p => p.name === playerName);
       if (existingPlayer) {
         existingPlayer.socketId = socketId;
         existingPlayer.connected = true;
+        playerId = existingPlayer.id;
+      } else {
+        return null; // Room is full
       }
     }
 
-    return room;
+    return { ...room, playerId };
   }
 
   submitMoves(roomCode, socketId, moves) {
@@ -106,6 +126,7 @@ class RoomManager {
       const player = room.players.find(p => p.socketId === socketId);
       if (player) {
         player.connected = false;
+        player.socketId = null;
       }
     }
   }

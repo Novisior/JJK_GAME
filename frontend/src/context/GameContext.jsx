@@ -1,3 +1,4 @@
+// src/context/GameContext.jsx
 import React, { createContext, useContext, useReducer } from 'react';
 
 const GameContext = createContext();
@@ -82,7 +83,52 @@ function gameReducer(state, action) {
       return { ...state, movesLocked: false };
     
     case 'RESET_GAME':
-      return initialState;
+      return {
+        ...initialState,
+        gameMode: state.gameMode,
+        roomCode: state.roomCode,
+        playerName: state.playerName,
+        playerId: state.playerId,
+        connected: state.connected,
+        gameState: {
+          players: {
+            player1: { hp: 1000, ce: 0, name: state.gameState.players.player1.name || '', domainActive: false, domainQueued: false },
+            player2: { hp: 1000, ce: 0, name: state.gameState.players.player2.name || '', domainActive: false, domainQueued: false }
+          },
+          round: 1,
+          clash: 1,
+          phase: 'moveSelection',
+          battleLog: [],
+          currentMoves: { player1: [], player2: [] },
+          clashResults: [],
+          finisherActive: false,
+          finisherInitiator: null,
+          winner: null,
+          doubleDomain: false
+        }
+      };
+    
+    case 'START_FRESH_GAME':
+      return {
+        ...state,
+        gameState: {
+          players: {
+            player1: { hp: 1000, ce: 0, name: action.payload?.player1Name || '', domainActive: false, domainQueued: false },
+            player2: { hp: 1000, ce: 0, name: action.payload?.player2Name || '', domainActive: false, domainQueued: false }
+          },
+          round: 1,
+          clash: 1,
+          phase: 'moveSelection',
+          battleLog: [],
+          currentMoves: { player1: [], player2: [] },
+          clashResults: [],
+          finisherActive: false,
+          finisherInitiator: null,
+          winner: null,
+          doubleDomain: false
+        },
+        movesLocked: false
+      };
     
     default:
       return state;
